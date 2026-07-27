@@ -16,7 +16,7 @@ Réponses aux questions du TP (stack déjà déployée).
 - **Mémoire** : quantité de RAM encore utilisable à l’instant T — *gauge*.
 - **Fichiers** : espace libre restant sur chaque montage — *gauge*.
 
-![Cibles Prometheus](capture/tp_1/prometheus_targets.png)
+![Cibles Prometheus](screenshots/prometheus_targets.png)
 
 ---
 
@@ -33,7 +33,7 @@ Calcule le **taux d’utilisation CPU (%)** sur 5 minutes :
 3. `* 100` → pourcentage d’inactivité
 4. `100 - …` → pourcentage d’occupation CPU
 
-![Graph PromQL CPU](capture/tp_1/promql_cpu.png)
+![Graph PromQL CPU](screenshots/promql_cpu.png)
 
 ---
 
@@ -43,7 +43,7 @@ Calcule le **taux d’utilisation CPU (%)** sur 5 minutes :
 2. **Memory Available / Used** — Une RAM qui s’épuise mène au swap puis à des OOM kills, souvent sans alerte métier claire.
 3. **Filesystem Space Available (root `/`)** — Disque plein = logs bloqués, écritures en échec, services qui tombent. À surveiller en priorité sur une machine unique.
 
-![Node Exporter Full](capture/tp_1/node_exporter_full.png)
+![Node Exporter Full](screenshots/node_exporter_full.png)
 
 ---
 
@@ -51,7 +51,7 @@ Calcule le **taux d’utilisation CPU (%)** sur 5 minutes :
 
 Jauge CPU (seuils vert / orange / rouge), espace disque `/`, trafic réseau `ens18`, uptime serveur.
 
-![Vue Astreinte](capture/tp_1/vue_astreinte.png)
+![Vue Astreinte](screenshots/vue_astreinte.png)
 
 ---
 
