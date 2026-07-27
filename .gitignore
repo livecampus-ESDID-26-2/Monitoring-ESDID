@@ -1,0 +1,15 @@
+# Grafana données internes
+grafana/*.db
+grafana/png/
+grafana/pdf/
+grafana/csv/
+grafana/unified-search/
+
+# Logs
+*.log
+
+# Docker
+docker-compose.override.yml
+
+# Environnements
+.env
