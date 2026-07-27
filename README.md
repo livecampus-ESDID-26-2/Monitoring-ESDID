@@ -75,7 +75,7 @@ Collecte des métriques OS via Node Exporter, configuration Prometheus (modèle 
 Règles d'alerte Prometheus, Alertmanager (routes, inhibit, silences) et notifications IM via webhook / bot.
 
 - 📘 [Énoncé](docs/cahier_tp.md#tp2--alerting-temps-réel-avec-alertmanager-et-notifications-discordtelegram)
-- 🚧 [Réponses](docs/reponses_tp2.md)
+- ✅ [Réponses](docs/reponses_tp2.md)
 
 ### TP3 — Supervision réseau SNMP (Net-SNMP, LibreNMS, MRTG)
 

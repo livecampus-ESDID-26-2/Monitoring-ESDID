@@ -1,0 +1,29 @@
+groups:
+  - name: regles-systeme
+    rules:
+      - alert: CPUEleve
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) * 100) > 85
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Charge CPU élevée sur {{ $labels.instance }}"
+          description: "CPU > 85% depuis plus de 1 minute (valeur actuelle : {{ $value | printf \"%.1f\" }}%)"
+
+      - alert: DisqueCritique
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 10
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Espace disque critique sur {{ $labels.instance }}"
+          description: "Moins de 10% d'espace libre sur la partition racine"
+
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.instance }} est injoignable"
+          description: "La cible ne répond plus aux scrapes Prometheus depuis 1 minute"
