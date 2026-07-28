@@ -1,0 +1,9 @@
+## Règles auditd persistantes — TP4
+## Fichier à déployer : /etc/audit/rules.d/audit.rules
+## (auditctl seul est volatil : perdu au reboot)
+
+# Surveillance écriture/attributs sur /etc/passwd
+-w /etc/passwd -p wa -k surveillance_passwd
+
+# Surveillance exécution de su
+-w /usr/bin/su -p x -k surveillance_su

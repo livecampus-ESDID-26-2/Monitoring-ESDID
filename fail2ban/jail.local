@@ -1,0 +1,12 @@
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+# Debian 13 : logs souvent via journald ; auth.log ISO parfois mal parsé
+backend = systemd
+journalmatch = _SYSTEMD_UNIT=ssh.service
+# Ne pas ignorer localhost pour les tests lab depuis 127.0.0.1
+ignoreip = ::1
+maxretry = 4
+findtime = 300
+bantime = 1800

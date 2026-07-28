@@ -89,7 +89,7 @@ Agent SNMP, interrogation OID/MIB, historisation MRTG et supervision centralisé
 Journalisation, surveillance sudo, règles auditd, anti brute-force SSH et scripts de dérive d'horloge / quotas.
 
 - 📘 [Énoncé](docs/cahier_tp.md#tp4--détection-dintrusions-et-dérives-système-avec-auditd-fail2ban-et-scripts-maison)
-- 🚧 [Réponses](docs/reponses_tp4.md)
+- ✅ [Réponses](docs/reponses_tp4.md)
 
 ### TP5 — Disponibilité & SLA (Uptime Kuma)
 
