@@ -1,0 +1,82 @@
+# LibreNMS minimal stack (TP3) — le docker run seul du cahier est obsolète (DB_HOST requis)
+services:
+  db:
+    image: mariadb:10.11
+    container_name: librenms_db
+    command:
+      - mysqld
+      - --innodb-file-per-table=1
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      TZ: Europe/Paris
+      MYSQL_DATABASE: librenms
+      MYSQL_USER: librenms
+      MYSQL_PASSWORD: librenms_tp
+      MARIADB_ROOT_PASSWORD: root_tp_change_me
+    volumes:
+      - librenms_db:/var/lib/mysql
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: librenms_redis
+    environment:
+      TZ: Europe/Paris
+    restart: unless-stopped
+
+  librenms:
+    image: librenms/librenms:latest
+    container_name: librenms
+    hostname: librenms
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - librenms_data:/data
+    environment:
+      TZ: Europe/Paris
+      PUID: "1000"
+      PGID: "1000"
+      DB_HOST: db
+      DB_NAME: librenms
+      DB_USER: librenms
+      DB_PASSWORD: librenms_tp
+      DB_TIMEOUT: "60"
+      REDIS_HOST: redis
+      CACHE_DRIVER: redis
+      SESSION_DRIVER: redis
+    restart: unless-stopped
+
+  dispatcher:
+    image: librenms/librenms:latest
+    container_name: librenms_dispatcher
+    hostname: librenms-dispatcher
+    depends_on:
+      - librenms
+      - redis
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - librenms_data:/data
+    environment:
+      TZ: Europe/Paris
+      PUID: "1000"
+      PGID: "1000"
+      DB_HOST: db
+      DB_NAME: librenms
+      DB_USER: librenms
+      DB_PASSWORD: librenms_tp
+      DB_TIMEOUT: "60"
+      REDIS_HOST: redis
+      DISPATCHER_NODE_ID: dispatcher1
+      SIDECAR_DISPATCHER: "1"
+    restart: unless-stopped
+
+volumes:
+  librenms_db:
+  librenms_data:

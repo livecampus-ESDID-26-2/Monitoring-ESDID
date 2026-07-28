@@ -82,7 +82,7 @@ Règles d'alerte Prometheus, Alertmanager (routes, inhibit, silences) et notific
 Agent SNMP, interrogation OID/MIB, historisation MRTG et supervision centralisée LibreNMS.
 
 - 📘 [Énoncé](docs/cahier_tp.md#tp3--supervision-réseau-via-snmp-avec-net-snmp-librenms-et-mrtg)
-- 🚧 [Réponses](docs/reponses_tp3.md)
+- ✅ [Réponses](docs/reponses_tp3.md)
 
 ### TP4 — Détection d'intrusions (auditd, Fail2ban, scripts)
 
