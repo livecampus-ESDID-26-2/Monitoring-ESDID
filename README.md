@@ -14,7 +14,7 @@ tp-monitoring/
 ├── .env / .env.example
 ├── docs/                 # énoncés, réponses, captures, fiche révision
 ├── monitoring/           # configs & scripts TP Monitoring (TP1–TP5)
-└── elk/                  # configs & pipelines stack ELK (à venir)
+└── elk/                  # configs & pipelines stack ELK
 ```
 
 ---
@@ -29,7 +29,7 @@ tp-monitoring/
 - 📡 SNMP, MRTG & LibreNMS
 - 🛡️ auditd, Fail2ban & scripts (sudo / horloge)
 - 🚀 SLA, Uptime Kuma, status page & rapports d'incident
-- 📦 Stack ELK (à venir)
+- 📦 Stack ELK (Elasticsearch, Logstash, Kibana)
 
 👉 **[Voir la fiche de révision complète](docs/fiche-revision.md)**
 

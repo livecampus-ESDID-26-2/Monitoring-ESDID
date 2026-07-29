@@ -1,9 +1,9 @@
-# Fiche de révision — Module Monitoring
+# Fiche de révision — Monitoring & ELK
 
-Synthèse rapide des concepts (TP1 → TP5).  
-Statut : **TP1 ✅** · **TP2 ✅** · **TP3 ✅** · **TP4 ✅** · **TP5 ✅**
+Synthèse rapide des concepts.  
+Statut : **Monitoring TP1–TP5 ✅** · **ELK install ✅**
 
-Énoncé : [`cahier_tp_monitoring.md`](cahier_tp_monitoring.md)
+Énoncés : [`cahier_tp_monitoring.md`](cahier_tp_monitoring.md) · [`cahier_tp_elk.md`](cahier_tp_elk.md)
 
 ---
 
@@ -167,9 +167,53 @@ Fichiers : `monitoring/audit/audit.rules`, `monitoring/fail2ban/jail.local`, `mo
 
 ---
 
+## 📦 Stack ELK — install (logs)
+
+Chaîne logs (complémentaire des métriques Prometheus) :
+
+```
+Sources (logs / événements)
+        ↓
+   Logstash (:5044)     → filtre / transforme (pipeline)
+        ↓
+ Elasticsearch (:9200)  → stocke & indexe (cluster elk-tp, node-1)
+        ↓
+     Kibana (:5601)     → UI web (Discover, Dashboards…)
+```
+
+| Composant | Port | Rôle |
+|-----------|------|------|
+| **Elasticsearch** | 9200 | « Base » de recherche — indexe les documents |
+| **Logstash** | 5044 | Collecte + transforme → envoie à ES |
+| **Kibana** | 5601 | Visualisation / exploration des données ES |
+
+**Lab fait :**
+
+- Docker Compose dans `elk/` (8.15.3) — équivalent du guide `apt`/`systemctl`
+- Config lab : `cluster.name: elk-tp`, `xpack.security.enabled: false` (**jamais en prod exposée**)
+- Pipeline test → index **`logstash-test`** (`source: test-tp`)
+- Vérif : `curl :9200` → *You Know, for Search* ; Kibana accessible
+
+**Commandes :**
+
+```bash
+cd elk && docker compose up -d
+curl http://localhost:9200
+curl 'http://localhost:9200/_cat/indices?v'
+# Kibana : http://<IP>:5601
+```
+
+Fichiers : `elk/docker-compose.yml`, `elk/logstash/pipeline/test.conf`  
+Réponses : [`reponses_tp_elk.md`](reponses_tp_elk.md)
+
+> Prochains TPs ELK (Beats, dashboards avancés…) : pas encore dans le cahier — snapshot VM recommandé avant de continuer.
+
+---
+
 ## Chaîne complète
 
 ```
+── Métriques ──
 Node Exporter (:9100)
         ↓ scrape
    Prometheus (:9090) ──→ Grafana (:3000)
@@ -178,9 +222,13 @@ Node Exporter (:9100)
                             ↓
                        relay.py (:5000) ──→ Discord
 
+── Réseau / sécu / dispo ──
 snmpd ──→ MRTG / LibreNMS (:8000)
 auditd + Fail2ban + scripts (sudo / horloge)
 Uptime Kuma (:3001) ──→ Discord + status page + SLA / post-mortem
+
+── Logs ──
+Logstash ──→ Elasticsearch (:9200) ──→ Kibana (:5601)
 ```
 
 ## Ports à retenir
@@ -194,22 +242,14 @@ Uptime Kuma (:3001) ──→ Discord + status page + SLA / post-mortem
 | Relais Discord | 5000 |
 | LibreNMS | 8000 |
 | Uptime Kuma | 3001 |
-| Elasticsearch *(ELK à venir)* | 9200 |
-| Kibana *(ELK à venir)* | 5601 |
-| Logstash *(ELK à venir)* | 5044 |
+| Elasticsearch | 9200 |
+| Kibana | 5601 |
+| Logstash | 5044 |
 
----
+## Structure dépôt
 
-## Prochain module — ELK
-
-Guide d’install : [`cahier_tp_elk.md`](cahier_tp_elk.md)  
-Configs Docker : `elk/docker-compose.yml` (ES `:9200`, Kibana `:5601`, Logstash `:5044`)  
-Réponses : [`reponses_tp_elk.md`](reponses_tp_elk.md)
-
-| Composant | Rôle |
-|-----------|------|
-| **Elasticsearch** | Stocke / indexe les logs |
-| **Logstash** | Collecte + transforme → ES |
-| **Kibana** | UI web sur les données ES |
-
-Lab : `xpack.security.enabled: false` — **jamais** en prod exposée.
+| Dossier | Contenu |
+|---------|---------|
+| `docs/` | Cahiers, réponses, captures, cette fiche |
+| `monitoring/` | Configs / scripts TP1–TP5 |
+| `elk/` | Compose + pipelines ELK |
