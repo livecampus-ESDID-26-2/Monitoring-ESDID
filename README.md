@@ -57,7 +57,7 @@
 
 Mise en place d'une **chaîne de supervision complète** : métriques système, visualisation, alerting, SNMP, détection de sécurité et suivi de disponibilité / SLA.
 
-📄 **[Énoncé complet — cahier_tp.md](docs/cahier_tp.md)**
+📄 **[Énoncé complet — cahier_tp_monitoring.md](docs/cahier_tp_monitoring.md)**
 
 ---
 
@@ -67,34 +67,34 @@ Mise en place d'une **chaîne de supervision complète** : métriques système, 
 
 Collecte des métriques OS via Node Exporter, configuration Prometheus (modèle pull), dashboards Grafana dont une **Vue Astreinte**.
 
-- 📘 [Énoncé](docs/cahier_tp.md#tp1--supervision-système-avec-prometheus-node-exporter-et-grafana)
+- 📘 [Énoncé](docs/cahier_tp_monitoring.md#tp1--supervision-système-avec-prometheus-node-exporter-et-grafana)
 - ✅ [Réponses](docs/reponses_tp1.md)
 
 ### TP2 — Alerting temps réel (Alertmanager, Telegram / Discord)
 
 Règles d'alerte Prometheus, Alertmanager (routes, inhibit, silences) et notifications IM via webhook / bot.
 
-- 📘 [Énoncé](docs/cahier_tp.md#tp2--alerting-temps-réel-avec-alertmanager-et-notifications-discordtelegram)
+- 📘 [Énoncé](docs/cahier_tp_monitoring.md#tp2--alerting-temps-réel-avec-alertmanager-et-notifications-discordtelegram)
 - ✅ [Réponses](docs/reponses_tp2.md)
 
 ### TP3 — Supervision réseau SNMP (Net-SNMP, LibreNMS, MRTG)
 
 Agent SNMP, interrogation OID/MIB, historisation MRTG et supervision centralisée LibreNMS.
 
-- 📘 [Énoncé](docs/cahier_tp.md#tp3--supervision-réseau-via-snmp-avec-net-snmp-librenms-et-mrtg)
+- 📘 [Énoncé](docs/cahier_tp_monitoring.md#tp3--supervision-réseau-via-snmp-avec-net-snmp-librenms-et-mrtg)
 - ✅ [Réponses](docs/reponses_tp3.md)
 
 ### TP4 — Détection d'intrusions (auditd, Fail2ban, scripts)
 
 Journalisation, surveillance sudo, règles auditd, anti brute-force SSH et scripts de dérive d'horloge / quotas.
 
-- 📘 [Énoncé](docs/cahier_tp.md#tp4--détection-dintrusions-et-dérives-système-avec-auditd-fail2ban-et-scripts-maison)
+- 📘 [Énoncé](docs/cahier_tp_monitoring.md#tp4--détection-dintrusions-et-dérives-système-avec-auditd-fail2ban-et-scripts-maison)
 - ✅ [Réponses](docs/reponses_tp4.md)
 
 ### TP5 — Disponibilité & SLA (Uptime Kuma)
 
 Moniteurs externes, page de statut, calcul de SLA et rapport d'incident (post-mortem) en anglais.
 
-- 📘 [Énoncé](docs/cahier_tp.md#tp5--disponibilité-sla-et-rédaction-de-rapports-dincident-avec-uptime-kuma)
+- 📘 [Énoncé](docs/cahier_tp_monitoring.md#tp5--disponibilité-sla-et-rédaction-de-rapports-dincident-avec-uptime-kuma)
 - ✅ [Réponses](docs/reponses_tp5.md)
 - 📄 [Rapport d'incident (EN)](docs/incident_report_tp5.md)
