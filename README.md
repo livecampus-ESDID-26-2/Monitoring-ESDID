@@ -96,4 +96,5 @@ Journalisation, surveillance sudo, règles auditd, anti brute-force SSH et scrip
 Moniteurs externes, page de statut, calcul de SLA et rapport d'incident (post-mortem) en anglais.
 
 - 📘 [Énoncé](docs/cahier_tp.md#tp5--disponibilité-sla-et-rédaction-de-rapports-dincident-avec-uptime-kuma)
-- ⏳ Réponses — à venir
+- ✅ [Réponses](docs/reponses_tp5.md)
+- 📄 [Rapport d'incident (EN)](docs/incident_report_tp5.md)
