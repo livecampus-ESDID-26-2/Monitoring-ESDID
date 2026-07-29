@@ -1,7 +1,9 @@
 # Fiche de révision — Module Monitoring
 
 Synthèse rapide des concepts (TP1 → TP5).  
-Statut : **TP1 ✅** · **TP2 ✅** · TP3–TP5 à venir.
+Statut : **TP1 ✅** · **TP2 ✅** · **TP3 ✅** · **TP4 ✅** · **TP5 ✅**
+
+Énoncé : [`cahier_tp_monitoring.md`](cahier_tp_monitoring.md)
 
 ---
 
@@ -28,7 +30,8 @@ Les exporters **exposent** les métriques ; ils n’envoient rien d’eux-mêmes
 
 | Élément | Détail |
 |---------|--------|
-| Config | `prometheus/prometheus.yml` |
+| Config | `monitoring/prometheus/prometheus.yml` |
+| Relais Discord | `monitoring/relay.py` |
 | Node Exporter | `:9100` (systemd sur l’hôte) |
 | Prometheus | `:9090` — Targets, Graph, Alerts |
 | Accès hôte depuis Docker | `host.docker.internal` + `--add-host=host-gateway` |
@@ -91,22 +94,76 @@ Règles (alert_rules.yml)
 
 ---
 
-## 🔐 SNMP & sécurité système (TP3–TP4)
+## 📡 Supervision SNMP — MRTG / LibreNMS (TP3)
 
-- **SNMP** : équipements sans agent Prometheus (OID / MIB)
-- **SNMPv3** : `noAuthNoPriv` → `authNoPriv` → `authPriv`
-- **auditd** : règles persistantes dans `/etc/audit/rules.d/` (`auditctl` seul = volatile)
-- **Fail2ban** : ban IP après N échecs SSH
-- **Scripts** : `sudo_watch.py`, dérive NTP / quotas disque
+Équipements **sans** agent Prometheus → interrogation **SNMP** (OID / MIB).
+
+| Concept | À retenir |
+|---------|-----------|
+| SNMPv2c | Communauté en clair (`tp-master-ro`) — OK lab, pas prod |
+| SNMPv3 | `noAuthNoPriv` → `authNoPriv` → **`authPriv`** (recommandé prod) |
+| OID utiles | `sysName` `1.3.6.1.2.1.1.5.0` ; `hrProcessorLoad` `1.3.6.1.2.1.25.3.3.1.2` |
+| Inventaire auto | LibreNMS découvre CPU, interfaces, OS via snmpwalk (pas saisi à la main) |
+| MRTG | Graphiques trafic interface (`ens18`) |
+| Alerte | Port ≥ **80 %** (`macros.port_usage_perc`) |
+
+**Stack lab :** `snmpd` sur la VM + LibreNMS en **Docker Compose** (`:8000`).  
+Transport Discord LibreNMS : souvent bloqué par SSL lab → règle native quand même livrable.
+
+Fichier : `monitoring/snmp/snmpd.conf` (communautés adaptées au réseau lab + Docker).
 
 ---
 
-## 🚀 Disponibilité & SLA (TP5)
+## 🛡️ Détection & dérives système (TP4)
 
-- **Uptime Kuma** : moniteurs externes (HTTP, TCP, Ping) ≠ métriques internes Prometheus
-- SLA **99,9 %** ≈ **43 min 50 s** d’indispo / mois max
-- Page de statut publique ≠ dashboard d’astreinte (masquer IPs, détails internes)
-- Rapports d’incident en **UTC**
+| Outil | Rôle |
+|-------|------|
+| `journalctl --list-boots` | Liste des redémarrages (ex. 7 derniers jours) |
+| `monitoring/scripts/sudo_watch.py` | Alerte si `sudo` hors whitelist ; option Discord via `.env` |
+| **auditd** | Règles dans `/etc/audit/rules.d/` (`auditctl` seul = volatile au reboot) |
+| **Fail2ban** | Ban IP après échecs SSH (`monitoring/fail2ban/jail.local`) |
+| `monitoring/scripts/derive_horloge.py` | Surveille la dérive NTP ; cron toutes les **30 min** |
+
+**Pourquoi la dérive d’horloge est un risque sécu :**
+
+1. Corrélation de logs faussée entre machines  
+2. Certificats TLS invalides (`NotBefore` / `NotAfter`)  
+3. Kerberos / JWT / MFA basés sur le temps cassés  
+
+Fichiers : `monitoring/audit/audit.rules`, `monitoring/fail2ban/jail.local`, `monitoring/scripts/`.
+
+---
+
+## 🚀 Disponibilité, SLA & incidents (TP5)
+
+**Uptime Kuma** (`:3001`) = supervision **externe** (blackbox) ≠ métriques internes Prometheus.
+
+| Sonde | Type | Cible typique |
+|-------|------|----------------|
+| HTTP-Apache | HTTP | `http://10.31.10.41` |
+| Ping-Gateway | Ping | gateway / IP joignable (lab) |
+| TCP-SSH | TCP | `10.31.10.41:22` |
+
+### SLA
+
+- Mois 30 j = **43 200 min**
+- Budget **99,9 %** ≈ **43,2 min** d’indispo max
+- Exemple cahier : 127 min → **≈ 99,706 %** → engagement **non respecté**
+
+### Status page vs dashboard d’astreinte
+
+| Public (clients) | Interne (Ops) |
+|------------------|---------------|
+| Up/Down + message d’incident | Latence, erreurs, config, runbooks |
+| Transparence contractuelle | Diagnostic / action |
+
+**Masquer au public :** IPs internes, ports, erreurs brutes, webhooks, credentials.
+
+### Incident
+
+- Notif Discord + panne simulée (`iptables` DROP TCP/22)
+- Rapport post-mortem en **anglais** (`incident_report_tp5.md`)
+- Timeline en **UTC** (évite confusion Paris vs New York sur « 10:33 »)
 
 ---
 
@@ -121,7 +178,9 @@ Node Exporter (:9100)
                             ↓
                        relay.py (:5000) ──→ Discord
 
-(+ SNMP → MRTG / LibreNMS | + auditd / Fail2ban | + Uptime Kuma)
+snmpd ──→ MRTG / LibreNMS (:8000)
+auditd + Fail2ban + scripts (sudo / horloge)
+Uptime Kuma (:3001) ──→ Discord + status page + SLA / post-mortem
 ```
 
 ## Ports à retenir
@@ -135,3 +194,13 @@ Node Exporter (:9100)
 | Relais Discord | 5000 |
 | LibreNMS | 8000 |
 | Uptime Kuma | 3001 |
+| Elasticsearch *(ELK à venir)* | 9200 |
+| Kibana *(ELK à venir)* | 5601 |
+| Logstash *(ELK à venir)* | 5044 |
+
+---
+
+## Prochain module — ELK
+
+Guide d’install : [`cahier_tp_elk.md`](cahier_tp_elk.md)  
+(Elasticsearch · Logstash · Kibana 8.x)

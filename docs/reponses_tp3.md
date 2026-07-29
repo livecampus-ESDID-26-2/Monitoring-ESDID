@@ -105,8 +105,8 @@ agentaddress  udp:161
 
 | Élément | Emplacement |
 |---------|-------------|
-| `snmpd.conf` commenté | section ci-dessus (+ copie `snmp/snmpd.conf`) |
+| `snmpd.conf` commenté | section ci-dessus (+ copie `monitoring/snmp/snmpd.conf`) |
 | Capture MRTG | `screenshots/mrtg_graphs.png` |
 | Capture inventaire LibreNMS | `screenshots/librenms_inventory.png` |
 | Capture règle d’alerte | `screenshots/librenms_alert_rule.png` |
-| Stack LibreNMS | `librenms/docker-compose.yml` |
+| Stack LibreNMS | `monitoring/librenms/docker-compose.yml` |

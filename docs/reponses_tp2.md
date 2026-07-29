@@ -1,6 +1,6 @@
 # Réponses TP2 — Alerting Alertmanager / Discord
 
-Stack : Prometheus → Alertmanager → `relay.py` → webhook Discord.
+Stack : Prometheus → Alertmanager → `monitoring/relay.py` → webhook Discord.
 
 ---
 
@@ -51,7 +51,7 @@ Avec Alertmanager, le silence est centralisé, horodaté, consultable par toute 
 
 | Fichier | Rôle |
 |---------|------|
-| `prometheus/alert_rules.yml` | Règles `CPUEleve`, `DisqueCritique`, `InstanceDown` |
-| `alertmanager/alertmanager.yml` | Routes, receivers Discord, `inhibit_rules` |
-| `relay.py` | Relais webhook Alertmanager → Discord |
+| `monitoring/prometheus/alert_rules.yml` | Règles `CPUEleve`, `DisqueCritique`, `InstanceDown` |
+| `monitoring/alertmanager/alertmanager.yml` | Routes, receivers Discord, `inhibit_rules` |
+| `monitoring/relay.py` | Relais webhook Alertmanager → Discord |
 | Captures | firing, resolved, silence |

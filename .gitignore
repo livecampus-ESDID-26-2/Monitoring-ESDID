@@ -1,12 +1,13 @@
 # Grafana données internes
-grafana/*.db
-grafana/png/
-grafana/pdf/
-grafana/csv/
-grafana/unified-search/
+monitoring/grafana/*.db
+monitoring/grafana/png/
+monitoring/grafana/pdf/
+monitoring/grafana/csv/
+monitoring/grafana/unified-search/
 
 # Logs
 *.log
+monitoring/logs/
 
 # Docker
 docker-compose.override.yml

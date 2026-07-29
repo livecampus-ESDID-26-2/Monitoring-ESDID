@@ -1,8 +1,21 @@
-# Supervision d'infrastructure — Module Monitoring
+# Supervision d'infrastructure — Monitoring & ELK
 
 **École :** LiveCampus - ESDID-26.2  
 **Étudiant :** [Antoine MASIA](https://github.com/MasiaAntoine) - Full-Stack Developer  
 **Intervenant :** [Tarik LF](https://github.com/TarikLF) - Formateur Cybersécurité & Infrastructures
+
+---
+
+## Structure du dépôt
+
+```
+tp-monitoring/
+├── README.md
+├── .env / .env.example
+├── docs/                 # énoncés, réponses, captures, fiche révision
+├── monitoring/           # configs & scripts TP Monitoring (TP1–TP5)
+└── elk/                  # configs & pipelines stack ELK (à venir)
+```
 
 ---
 
@@ -13,8 +26,10 @@
 - 🏗️ Modèle pull Prometheus & métriques `/metrics`
 - 🎨 Dashboards Grafana (astreinte)
 - 🔧 Alertmanager, inhibit rules & silences
-- 🔐 SNMP, auditd, Fail2ban & scripts de détection
-- 🚀 SLA, Uptime Kuma & rapports d'incident
+- 📡 SNMP, MRTG & LibreNMS
+- 🛡️ auditd, Fail2ban & scripts (sudo / horloge)
+- 🚀 SLA, Uptime Kuma, status page & rapports d'incident
+- 📦 Stack ELK (à venir)
 
 👉 **[Voir la fiche de révision complète](docs/fiche-revision.md)**
 
@@ -57,11 +72,15 @@
 
 Mise en place d'une **chaîne de supervision complète** : métriques système, visualisation, alerting, SNMP, détection de sécurité et suivi de disponibilité / SLA.
 
-📄 **[Énoncé complet — cahier_tp_monitoring.md](docs/cahier_tp_monitoring.md)**
+📄 **Énoncés :**
+- [cahier_tp_monitoring.md](docs/cahier_tp_monitoring.md) — Module Monitoring (TP1–TP5)
+- [cahier_tp_elk.md](docs/cahier_tp_elk.md) — Installation stack ELK 8.x
 
 ---
 
-## Travaux pratiques
+## Travaux pratiques — Monitoring
+
+Configs : [`monitoring/`](monitoring/)
 
 ### TP1 — Supervision système (Prometheus, Node Exporter, Grafana)
 
@@ -98,3 +117,16 @@ Moniteurs externes, page de statut, calcul de SLA et rapport d'incident (post-mo
 - 📘 [Énoncé](docs/cahier_tp_monitoring.md#tp5--disponibilité-sla-et-rédaction-de-rapports-dincident-avec-uptime-kuma)
 - ✅ [Réponses](docs/reponses_tp5.md)
 - 📄 [Rapport d'incident (EN)](docs/incident_report_tp5.md)
+
+---
+
+## Travaux pratiques — ELK
+
+Configs : [`elk/`](elk/)
+
+### Installation stack ELK (Elasticsearch, Logstash, Kibana 8.x)
+
+Dépôt officiel Elastic, config lab (sécurité désactivée), services `systemctl`, pipeline Logstash de test.
+
+- 📘 [Énoncé / guide](docs/cahier_tp_elk.md)
+- 🚧 [Réponses](docs/reponses_tp_elk.md)

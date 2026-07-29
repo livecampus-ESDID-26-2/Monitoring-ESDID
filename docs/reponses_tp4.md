@@ -21,7 +21,7 @@ Test : utilisateur `alt` hors whitelist `{admin, deploy}` → alerte console lor
 
 ```bash
 set -a && source ~/tp-monitoring/.env && set +a
-sudo -E python3 scripts/sudo_watch.py
+sudo -E python3 monitoring/scripts/sudo_watch.py
 # autre terminal :
 sudo true
 ```
@@ -32,7 +32,7 @@ Principe : remplacer / compléter le `print()` par un `POST` JSON `{"content": "
 
 ## Question 3 — Persistance des règles auditd
 
-Règles déployées dans `/etc/audit/rules.d/audit.rules` (copie du dépôt `audit/audit.rules`) :
+Règles déployées dans `/etc/audit/rules.d/audit.rules` (copie du dépôt `monitoring/audit/audit.rules`) :
 
 ```conf
 -w /etc/passwd -p wa -k surveillance_passwd
@@ -68,10 +68,10 @@ D’où l’intérêt de NTP/chrony + supervision de la dérive (`derive_horloge
 
 | Élément | Emplacement |
 |---------|-------------|
-| `sudo_watch.py` | `scripts/sudo_watch.py` |
-| `derive_horloge.py` | `scripts/derive_horloge.py` |
-| Règles auditd persistantes | `audit/audit.rules` (→ `/etc/audit/rules.d/`) |
-| `jail.local` | `fail2ban/jail.local` |
+| `sudo_watch.py` | `monitoring/scripts/sudo_watch.py` |
+| `derive_horloge.py` | `monitoring/scripts/derive_horloge.py` |
+| Règles auditd persistantes | `monitoring/audit/audit.rules` (→ `/etc/audit/rules.d/`) |
+| `jail.local` | `monitoring/fail2ban/jail.local` |
 | Capture Fail2ban | `screenshots/fail2ban_ban.png` |
 | Capture derive_horloge | `screenshots/derive_horloge.png` |
 | Cron 30 min | `*/30 * * * * ... derive_horloge.py >> logs/derive_horloge.log` |

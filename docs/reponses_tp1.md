@@ -90,7 +90,7 @@ scrape_configs:
 
 | Élément | Emplacement |
 |---------|-------------|
-| `prometheus.yml` commenté | section ci-dessus (+ `prometheus/prometheus.yml`) |
+| `prometheus.yml` commenté | section ci-dessus (+ `monitoring/prometheus/prometheus.yml`) |
 | Dashboard Vue Astreinte | capture `screenshots/vue_astreinte.png` |
 | Captures Prometheus / Grafana | `screenshots/prometheus_targets.png`, `promql_cpu.png`, `node_exporter_full.png` |
 | Réponses Q1–Q3 | ce fichier |
