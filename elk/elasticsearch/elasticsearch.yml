@@ -1,0 +1,8 @@
+# Config lab TP — sécurité désactivée (machine locale uniquement)
+cluster.name: elk-tp
+node.name: node-1
+network.host: 0.0.0.0
+http.port: 9200
+discovery.type: single-node
+xpack.security.enabled: false
+xpack.security.http.ssl.enabled: false

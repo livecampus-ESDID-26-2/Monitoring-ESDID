@@ -1,0 +1,22 @@
+# Variante exacte du cahier (stdin) — pour un lancement interactif manuel uniquement.
+# docker run --rm -it --network elk_default \
+#   -v "$PWD/logstash/pipeline/test.stdin.conf.example:/usr/share/logstash/pipeline/logstash.conf:ro" \
+#   docker.elastic.co/logstash/logstash:8.15.3
+
+input {
+  stdin { }
+}
+
+filter {
+  mutate {
+    add_field => { "source" => "test-tp" }
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["http://elasticsearch:9200"]
+    index => "logstash-test"
+  }
+  stdout { codec => rubydebug }
+}

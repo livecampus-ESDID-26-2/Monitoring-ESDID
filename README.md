@@ -129,4 +129,5 @@ Configs : [`elk/`](elk/)
 Dépôt officiel Elastic, config lab (sécurité désactivée), services `systemctl`, pipeline Logstash de test.
 
 - 📘 [Énoncé / guide](docs/cahier_tp_elk.md)
-- 🚧 [Réponses](docs/reponses_tp_elk.md)
+- ✅ [Réponses](docs/reponses_tp_elk.md)
+- 📁 [Configs Docker](elk/)

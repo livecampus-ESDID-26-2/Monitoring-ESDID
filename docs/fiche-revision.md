@@ -203,4 +203,13 @@ Uptime Kuma (:3001) ──→ Discord + status page + SLA / post-mortem
 ## Prochain module — ELK
 
 Guide d’install : [`cahier_tp_elk.md`](cahier_tp_elk.md)  
-(Elasticsearch · Logstash · Kibana 8.x)
+Configs Docker : `elk/docker-compose.yml` (ES `:9200`, Kibana `:5601`, Logstash `:5044`)  
+Réponses : [`reponses_tp_elk.md`](reponses_tp_elk.md)
+
+| Composant | Rôle |
+|-----------|------|
+| **Elasticsearch** | Stocke / indexe les logs |
+| **Logstash** | Collecte + transforme → ES |
+| **Kibana** | UI web sur les données ES |
+
+Lab : `xpack.security.enabled: false` — **jamais** en prod exposée.

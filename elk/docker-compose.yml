@@ -1,0 +1,56 @@
+# Stack ELK 8.x (lab TP)
+# Équivalent Docker du guide apt/systemctl — ports et config lab identiques.
+# Les fichiers *.yml du dossier documentent la config cahier (référence / install apt).
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    container_name: elasticsearch
+    environment:
+      discovery.type: single-node
+      cluster.name: elk-tp
+      node.name: node-1
+      network.host: 0.0.0.0
+      http.port: 9200
+      xpack.security.enabled: "false"
+      xpack.security.http.ssl.enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.3
+    container_name: kibana
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      SERVER_HOST: "0.0.0.0"
+      SERVER_PORT: 5601
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+    ports:
+      - "5601:5601"
+    restart: unless-stopped
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.15.3
+    container_name: logstash
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5044:5044"
+    restart: unless-stopped
+
+volumes:
+  es_data:
