@@ -20,7 +20,37 @@ Stack : Uptime Kuma (`:3001`) → 3 moniteurs + Discord ; page de statut publiqu
 
 ---
 
+## Déploiement Uptime Kuma — 3 moniteurs
+
+Moniteurs HTTP-Apache, Ping-Gateway et TCP-SSH (intervalle 60 s). Dashboard avec les trois sondes opérationnelles :
+
+### Dashboard
+
+<img src="./screenshots/uptime_kuma_dashboard.png" alt="Dashboard Uptime Kuma — 3 moniteurs Up" width="100%">
+
+---
+
+## Notifications Discord + panne SSH simulée
+
+Notification Discord associée aux 3 moniteurs. Simulation : `iptables` DROP sur le port 22 → TCP-SSH Down + alerte Discord, puis rétablissement.
+
+### Panne TCP-SSH (historique Down)
+
+<img src="./screenshots/uptime_kuma_down.png" alt="Uptime Kuma — panne TCP-SSH simulée" width="100%">
+
+### Notification Discord (service Down)
+
+<img src="./screenshots/discord_uptime.png" alt="Discord — TCP-SSH went down" width="100%">
+
+---
+
 ## Question 2 — Status page clients vs dashboard d’astreinte
+
+Page publique « Statut des services » regroupant les 3 moniteurs, avec message d’incident manuel pour la panne SSH :
+
+### Status page publique
+
+<img src="./screenshots/uptime_kuma_status_page.png" alt="Status page — Statut des services" width="100%">
 
 | | **Page de statut (clients)** | **Dashboard interne (astreinte)** |
 |--|------------------------------|-----------------------------------|
@@ -30,7 +60,7 @@ Stack : Uptime Kuma (`:3001`) → 3 moniteurs + Discord ; page de statut publiqu
 
 **À masquer au public :** IPs internes, ports sensibles, URLs d’admin, messages d’erreur bruts, noms d’hôtes internes, détails firewall / runbooks, webhooks, credentials, métriques trop granulaires pouvant aider un attaquant.
 
-La page « Statut des services » montre l’état des 3 sondes + un message d’incident résolu, sans exposer la config Ops.
+La page montre l’état des 3 sondes + un message d’incident résolu, sans exposer la config Ops.
 
 ---
 
@@ -42,18 +72,9 @@ Les équipes internationales (et les outils) ne partagent pas le même fuseau. *
 
 ---
 
-## Captures
+## Rapport d'incident (anglais)
 
-| Capture | Fichier |
-|---------|---------|
-| Dashboard (3 moniteurs Up) | [`screenshots/uptime_kuma_dashboard.png`](screenshots/uptime_kuma_dashboard.png) |
-| Panne SSH simulée | [`screenshots/uptime_kuma_down.png`](screenshots/uptime_kuma_down.png) |
-| Notif Discord (Down) | [`screenshots/discord_uptime.png`](screenshots/discord_uptime.png) |
-| Status page publique | [`screenshots/uptime_kuma_status_page.png`](screenshots/uptime_kuma_status_page.png) |
-
-![Dashboard](screenshots/uptime_kuma_dashboard.png)
-
-![Status page](screenshots/uptime_kuma_status_page.png)
+Voir [`incident_report_tp5.md`](incident_report_tp5.md) (livrable demandé par le cahier).
 
 ---
 
@@ -62,6 +83,6 @@ Les équipes internationales (et les outils) ne partagent pas le même fuseau. *
 | Élément | Emplacement |
 |---------|-------------|
 | Calcul SLA (Q1) | section ci-dessus |
-| Captures Uptime Kuma | `screenshots/` |
+| Captures Uptime Kuma | 4 images intégrées ci-dessus |
 | Rapport d'incident (EN) | [`incident_report_tp5.md`](incident_report_tp5.md) |
 | Réponses Q2–Q3 | ce fichier |
